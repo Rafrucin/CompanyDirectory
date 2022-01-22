@@ -1,0 +1,352 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/x-icon" href="img/favicon.ico">
+	<title>Company directory</title>
+	<meta name="description" content="AJAX/PHP/CURL/JSON example">
+	<meta name="author" content="Raf">
+	<link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="libs/css/mystyle.css?v=1">
+</head>
+
+<body class="bg-dark text-white">
+
+	<div id=”preloader”></div>
+
+	<!-- alert -->
+	<div id="yellowAlert" class="d-none">
+		<div id="yellowAlert-conten" class="alert alert-warning" role="alert">
+			<div id="yellowAlert-conten-text" class ="d-none d-lg-block" >yellowAlert?</div>
+			<div id="yellow-sm" class="d-lg-none"></div>
+			<button type="button" id="yellowOK" class="btn btn-sm btn-success"><i class="far fa-save"></i></button>
+			<button type="button" id="yellowCancel" class="btn btn-sm btn-danger"><i class="fas fa-undo-alt"></i></button>
+		</div>
+		<div id="frost"></div>
+	</div>
+
+
+
+	<div id="redAlert" class="alert alert-danger d-none text-center" role="alert">
+	</div>
+
+	<div id="greenAlert" class="alert alert-success text-center d-none" role="alert">
+	</div>
+	<!-- alert END -->
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Modal Header</h4>
+				</div>
+				<div class="modal-body">
+					<p>Some text in the modal.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="modalBtnOK" class="btn btn-sm btn-success"
+						data-dismiss="modal">OK</button>
+					<button type="button" id="modalBtnCancel" class="btn btn-sm btn-danger"
+						data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- Modal END-->
+	<!--Navbar-->
+	<div class="container-fluid d-lg-none">
+		<div class="collapse" id="navbarToggleExternalContent">
+			<ul class="nav nav-pills flex-column mb-auto">
+				<li>
+					<a href="#" id="navAdd" class="nav-link text-white" aria-current="page">
+						Add Employee
+					</a>
+				</li>
+				<li>
+					<a href="#" id="navSearch" class="nav-link text-white">
+						Search/Edit
+					</a>
+				</li>
+				<li>
+					<a href="#" id="navShowAll" class="nav-link text-white">
+						Show All Employees
+					</a>
+				</li>
+				<li>
+					<a href="#" id="navManage" class="nav-link text-white">
+						Manage Locations / Departments
+					</a>
+				</li>
+			</ul>
+		</div>
+		<nav class="navbar navbar-dark bg-dark">
+			<div class="container-fluid">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</nav>
+	</div>
+	<!--Navbar-->
+
+
+	<div id="main" class="row">
+		<!--sidebar-->
+		<div class="d-none d-lg-block col-md-3 ">
+			<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
+				<span class="fs-4">Company Directory</span>
+				<hr>
+				<ul class="nav nav-pills flex-column mb-auto">
+					<li class="">
+						<a href="#" id="sideAdd" class="nav-link text-white" aria-current="page">
+							Add Employee
+						</a>
+					</li>
+					<li>
+						<a href="#" id="sideSearch" id="sideSearch" class="nav-link text-white">
+							Search/Edit
+						</a>
+					</li>
+					<li>
+						<a href="#" id="sideShowAll" class="nav-link text-white">
+							Show All Employees
+						</a>
+					</li>
+					<li>
+						<a href="#" id="sideManage" class="nav-link text-white">
+							Manage Locations / Departments
+						</a>
+					</li>
+				</ul>
+				<hr>
+
+			</div>
+		</div>
+		<!--sidebar END-->
+
+
+		<!--content-->
+		<div class="container bg-light col-md-9  pt-md-5 p-3 bg-dark">
+
+			<!--Add-->
+			<div id="addScreen" class="row text-white p-2">
+				<div class="bg-dark col-sm-12">
+					<h4>Add Employee</h4>
+					<form>
+						<div class="form-row">
+							<div class="form-group col-md-6 mb-2">
+
+								<input type="text" class="form-control" id="addfirstName" placeholder="First Name">
+							</div>
+							<div class="form-group col-md-6 mb-2">
+
+								<input type="text" class="form-control" id="addlastName" placeholder="Last Name">
+							</div>
+						</div>
+						<div class="form-group col-md-6 mb-2">
+
+							<input type="text" class="form-control" id="addjobTitle" placeholder="Job Title">
+						</div>
+						<div class="form-group col-md-6 mb-2">
+
+							<input type="email" class="form-control" id="addemail" placeholder="Email">
+						</div>
+						<div class="form-group col-md-4 mb-2">
+
+							<select id="inputAddEmpDep" class="form-control">
+								<option selected>Department...</option>
+								<option>...</option>
+							</select>
+						</div>
+						<div class="form-group mt-4">
+							<button id="addScreenAdd" class="btn btn-warning"><i class="far fa-save"></i></button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!--end of addAdd-->
+			<!--edit-->
+			<div id="editScreen" class="row text-white p-2">
+				<div class="bg-dark col-sm-12">
+					<h4>Edit Employee</h4>
+					<form>
+						<div class="form-row">
+							<div class="form-group col-md-6 mb-2">
+								<label for="editfirstName">First Name</label>
+								<input type="text" class="form-control" id="editfirstName" placeholder="First Name">
+							</div>
+							<div class="form-group col-md-6 mb-2">
+								<label for="editlastName">Last Name</label>
+								<input type="text" class="form-control" id="editlastName" placeholder="Last Name">
+							</div>
+						</div>
+						<div class="form-group col-md-6 mb-2">
+							<label for="editjobTitle">Job Title</label>
+							<input type="text" class="form-control" id="editjobTitle" placeholder="Job Title">
+						</div>
+						<div class="form-group col-md-6 mb-2">
+							<label for="editemail">Email</label>
+							<input type="email" class="form-control" id="editemail" placeholder="Email">
+						</div>
+						<div class="form-group col-md-4 mb-2">
+							<label for="editinputDepartment">Department</label>
+							<select id="editinputDepartment" class="form-control">
+								<option selected>Choose...</option>
+								<option>...</option>
+							</select>
+						</div>
+						<div class="form-group mt-4">
+							<button id="editUpdate" class="btn btn-warning"><i class="far fa-save"></i></button>
+							<button id="editRemove" class="btn btn-danger mx-3"><i
+									class="far fa-trash-alt"></i></button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!--edit END-->
+			<!--Serach-->
+			<div id="searchScreen" class="row text-white p-2">
+				<div class="bg-dark col-sm-12">
+					<h4>Search Employee</h4>
+					<form>
+						<div class="form-row">
+							<div class="form-group col-md-6 mb-2">
+								<input type="text" class="form-control" id="searchfirstName" placeholder="First Name">
+							</div>
+							<div class="form-group col-md-6 mb-2">
+
+								<input type="text" class="form-control" id="searchlastName" placeholder="Last Name">
+							</div>
+						</div>
+						<div class="form-group col-md-6 mb-2">
+							<input type="text" class="form-control" id="searchjobTitle" placeholder="Job Title">
+						</div>
+						<div class="form-group col-md-4 mb-2">
+
+							<select id="searchinputLocation" class="form-control">
+								<option selected>Location...</option>
+								<option>...</option>
+							</select>
+						</div>
+						<div class="form-group col-md-4 mb-2">
+							<select id="searchinputDepartment" class="form-control">
+								<option selected>Department...</option>
+								<option>...</option>
+							</select>
+						</div>
+						<div class="form-group my-2">
+							<button id="searchSubmit" class="btn btn-info"><i class="fas fa-search"></i></button>
+						</div>
+					</form>
+					<div id="searchResult">
+					</div>
+				</div>
+			</div>
+			<!--Serach END-->
+			<!--manage location-->
+
+			<div id="manageLocation" class="p-2">
+				<div class="mb-2 ml-2  p-2">
+					<button id="showLocationsButton" class="btn btn-secondary btn-sm">Show Locations</button>
+					<button id="showDepartmentsButton" class="btn btn-secondary btn-sm mx-3">Show Departments</button>
+				</div>
+
+
+				<div id="locationAddSearch" class="row text-white p-2">
+					<div class="bg-dark col-sm-12">
+						<div id="addLocForm" class="d-none">
+							<form>
+								<div class="form-group col-md-6 mb-2">
+									<input type="text" class="form-control" id="locationinput"
+										placeholder="Add Location">
+								</div>
+
+								<div class="form-group">
+									<button id="locationAdd" class="btn btn-secondary"><i
+											class="far fa-save"></i></button>
+									<button id="locationEdit" class="btn btn-warning d-none"><i
+											class="far fa-save"></i></button>
+									<button id="locationEditCancel" class="btn btn-info d-none"><i
+											class="fas fa-undo-alt"></i></button>
+								</div>
+							</form>
+						</div>
+						<div class="mb-1">
+							<button id="addloc2" class="btn btn-success">
+								<i class="far fa-plus-square"></i>
+							</button>
+						</div>
+						<dic id="searchResultLocation">
+
+						</dic>
+					</div>
+				</div>
+
+				<div id="departmentAddSearch" class="row text-white p-2">
+					<div class="bg-dark col-sm-12">
+						<div id="addDeptForm" class="d-none">
+							<form>
+								<div class="form-group col-md-6 mb-2">
+									<input type="text" class="form-control" id="departmentInputSearch"
+										placeholder="Add Department">
+								</div>
+								<div class="form-group col-md-4 mb-2 d-none">
+									<select id="departmentinputLocation" class="form-control">
+										<option selected>choose Location...</option>
+										<option>...</option>
+									</select>
+								</div>
+
+
+								<div class="form-group">
+									<button id="departmentAdd" class="btn btn-secondary"><i
+											class="far fa-save"></i></button>
+									<button id="departmentEdit" class="btn btn-warning d-none"><i
+											class="far fa-save"></i></button>
+									<button id="departmentEditCancel" class="btn btn-info d-none"><i
+											class="fas fa-undo-alt"></i></button>
+								</div>
+							</form>
+						</div>
+						<div class="mb-1">
+							<button id="addDept2" class="btn btn-success">
+								<i class="far fa-plus-square"></i>
+							</button>
+						</div>
+						<div id="searchResultDepartment">
+							none
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--manage location END-->
+			<!--show all emp -->
+			<div id="showEmployees">
+				<h4>All Employees</h4>
+				<div id="showEmployeesresult">
+
+				</div>
+			</div>
+			<!--show all emp END-->
+
+
+		</div>
+		<!--content END-->
+	</div>
+	<script type="application/javascript" src="libs/js/jquery-3.6.0.min.js"></script>
+	<script type="application/javascript" src="libs/bootstrap/js/bootstrap.min.js"></script>
+	<script type="application/javascript" src="../project1/libs/fontawesome/js/all.js"></script>
+	<script type="application/javascript" src="libs/js/script.js?=v1"></script>
+</body>
+
+</html>
